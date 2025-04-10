@@ -4,7 +4,7 @@
     :class="`wd-step ${customClass} ${currentStatus ? 'is-' + currentStatus : ''} ${canAlignCenter ? 'is-center' : ''}  ${
       vertical ? 'is-vertical' : ''
     }`"
-    :style="rootStyle"
+    :style="rootStyle" @click="handleClick"
   >
     <view :class="`wd-step__header  ${dot ? 'is-dot' : ''}`">
       <view :class="`wd-step__icon  ${dot ? 'is-dot' : !!icon || $slots.icon ? 'is-icon' : 'is-text'}`">
@@ -52,6 +52,7 @@ import { stepProps } from './types'
 import type { CSSProperties } from 'vue'
 
 const props = defineProps(stepProps)
+const emit = defineEmits(['click'])
 
 const { parent: steps, index } = useParent(STEPS_KEY)
 
@@ -144,6 +145,10 @@ function getCurrentTitle(currentStatus: string) {
       return translate('wait')
   }
 }
+function handleClick() {
+  emit('click', index.value)
+}
+
 </script>
 <style lang="scss" scoped>
 @import './index.scss';
